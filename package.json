@@ -8,10 +8,12 @@
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "dev": "concurrently  \"npm run start:dev\" \"npm run gen-typings\" \"npm run prisma-generate\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
+    "gen-typings": "ts-node ./src/generate-typings",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -28,9 +30,11 @@
     "@nestjs/graphql": "^11.0.5",
     "@nestjs/platform-express": "^9.0.0",
     "@prisma/client": "^4.13.0",
+    "concurrently": "^8.0.1",
     "graphql": "^16.6.0",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.2.0",
+    "ts-morph": "^18.0.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",

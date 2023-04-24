@@ -1,0 +1,26 @@
+scalar DateTime
+
+type User {
+  id: ID!
+  email: String!
+  hash: String!
+  hashRt: String
+  createdAt: DateTime!
+}
+
+type CreateUser {
+  email: String!
+  hash: String!
+  hashRt: String
+  createdAt: DateTime
+}
+
+type Query {
+  user(id: ID!): User
+  users: [User]!
+}
+
+type Mutation {
+  createUser(email: String!, hash: String!, hashRt: String): CreateUser!
+  removeUser(id: Int!): User
+}
