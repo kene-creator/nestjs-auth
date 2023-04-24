@@ -1,13 +1,14 @@
 import { Resolver, Mutation, Args } from '@nestjs/graphql';
 import { AuthService } from './auth.service';
 import { AuthDto } from './dto';
+import { Tokens } from './types';
 
 @Resolver('auth')
 export class AuthResolver {
   constructor(private authService: AuthService) {}
 
   @Mutation('createUser')
-  async signupLocal(@Args('dto') dto: AuthDto) {
+  async signupLocal(@Args('dto') dto: AuthDto): Promise<Tokens> {
     this.authService.signupLocal(dto);
   }
 
