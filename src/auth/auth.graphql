@@ -15,12 +15,31 @@ type CreateUser {
   createdAt: DateTime
 }
 
+type SigninPayload {
+  accessToken: String!
+}
+
+type SignoutPayload {
+  message: String!
+}
+
+type RefreshTokenPayload {
+  accessToken: String!
+}
+
+type AuthPayload {
+  accessToken: String!
+  refreshToken: String!
+}
+
 type Query {
   user(id: ID!): User
   users: [User]!
 }
 
 type Mutation {
+  signinUser(email: String!, hash: String!, hashRt: String): AuthPayload!
+  signoutUser: SignoutPayload!
+  refreshToken(refreshToken: String!): RefreshTokenPayload!
   createUser(email: String!, hash: String!, hashRt: String): CreateUser!
-  removeUser(id: Int!): User
 }

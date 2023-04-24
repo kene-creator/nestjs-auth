@@ -23,6 +23,23 @@ export class CreateUser {
     createdAt?: Nullable<DateTime>;
 }
 
+export class SigninPayload {
+    accessToken: string;
+}
+
+export class SignoutPayload {
+    message: string;
+}
+
+export class RefreshTokenPayload {
+    accessToken: string;
+}
+
+export class AuthPayload {
+    accessToken: string;
+    refreshToken: string;
+}
+
 export abstract class IQuery {
     abstract user(id: string): Nullable<User> | Promise<Nullable<User>>;
 
@@ -30,9 +47,13 @@ export abstract class IQuery {
 }
 
 export abstract class IMutation {
-    abstract createUser(email: string, hash: string, hashRt?: Nullable<string>): CreateUser | Promise<CreateUser>;
+    abstract signinUser(email: string, hash: string, hashRt?: Nullable<string>): AuthPayload | Promise<AuthPayload>;
 
-    abstract removeUser(id: number): Nullable<User> | Promise<Nullable<User>>;
+    abstract signoutUser(): SignoutPayload | Promise<SignoutPayload>;
+
+    abstract refreshToken(refreshToken: string): RefreshTokenPayload | Promise<RefreshTokenPayload>;
+
+    abstract createUser(email: string, hash: string, hashRt?: Nullable<string>): CreateUser | Promise<CreateUser>;
 }
 
 export type DateTime = any;
