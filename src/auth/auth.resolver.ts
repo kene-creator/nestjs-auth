@@ -12,7 +12,7 @@ export class AuthResolver {
 
   @Mutation('signinUser')
   async signinLocal(
-    @Args('username') username: string,
+    @Args('email') email: string,
     @Args('password') password: string,
   ) {
     this.authService.signinLocal();
