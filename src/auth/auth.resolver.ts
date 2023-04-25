@@ -2,9 +2,7 @@ import { Resolver, Mutation, Args } from '@nestjs/graphql';
 import { AuthService } from './auth.service';
 import { UserCreateInput } from 'src/@generated/prisma-nestjs-graphql/user/user-create.input';
 import { AuthDto } from './dto';
-import { Token } from 'graphql';
 import { Tokens } from './types';
-import { UserWhereInput } from 'src/@generated/prisma-nestjs-graphql/user/user-where.input';
 
 @Resolver('auth')
 export class AuthResolver {
