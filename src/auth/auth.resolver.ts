@@ -9,7 +9,7 @@ export class AuthResolver {
 
   @Mutation('createUser')
   async signupLocal(@Args('dto') dto: AuthDto): Promise<Tokens> {
-    this.authService.signupLocal(dto);
+    return this.authService.signupLocal(dto);
   }
 
   @Mutation('signinUser')
