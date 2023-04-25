@@ -8,6 +8,17 @@
 /* tslint:disable */
 /* eslint-disable */
 
+export class CreateUserInput {
+    email: string;
+    hash: string;
+    createdAt?: Nullable<DateTime>;
+}
+
+export class SigninUser {
+    email: string;
+    password: string;
+}
+
 export class User {
     id: string;
     email: string;
@@ -16,15 +27,9 @@ export class User {
     createdAt: DateTime;
 }
 
-export class CreateUser {
-    email: string;
-    hash: string;
-    hashRt?: Nullable<string>;
-    createdAt?: Nullable<DateTime>;
-}
-
 export class SigninPayload {
-    accessToken: string;
+    access_token: string;
+    refresh_token: string;
 }
 
 export class SignoutPayload {
@@ -47,13 +52,13 @@ export abstract class IQuery {
 }
 
 export abstract class IMutation {
-    abstract signinUser(email: string, hash: string, hashRt?: Nullable<string>): AuthPayload | Promise<AuthPayload>;
+    abstract signinUser(signinUser: SigninUser): SigninPayload | Promise<SigninPayload>;
 
     abstract signoutUser(): SignoutPayload | Promise<SignoutPayload>;
 
     abstract refreshToken(refreshToken: string): RefreshTokenPayload | Promise<RefreshTokenPayload>;
 
-    abstract createUser(email: string, hash: string, hashRt?: Nullable<string>): CreateUser | Promise<CreateUser>;
+    abstract createUser(createUserInput: CreateUserInput): User | Promise<User>;
 }
 
 export type DateTime = any;

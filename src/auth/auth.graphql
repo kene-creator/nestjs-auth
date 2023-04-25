@@ -8,15 +8,20 @@ type User {
   createdAt: DateTime!
 }
 
-type CreateUser {
+input CreateUserInput {
   email: String!
   hash: String!
-  hashRt: String
   createdAt: DateTime
 }
 
+input SigninUser {
+  email: String!
+  password: String!
+}
+
 type SigninPayload {
-  accessToken: String!
+  access_token: String!
+  refresh_token: String!
 }
 
 type SignoutPayload {
@@ -38,8 +43,8 @@ type Query {
 }
 
 type Mutation {
-  signinUser(email: String!, hash: String!, hashRt: String): AuthPayload!
+  signinUser(signinUser: SigninUser!): SigninPayload!
   signoutUser: SignoutPayload!
   refreshToken(refreshToken: String!): RefreshTokenPayload!
-  createUser(email: String!, hash: String!, hashRt: String): CreateUser!
+  createUser(createUserInput: CreateUserInput!): User!
 }

@@ -1,23 +1,25 @@
 import { Resolver, Mutation, Args } from '@nestjs/graphql';
 import { AuthService } from './auth.service';
+import { UserCreateInput } from 'src/@generated/prisma-nestjs-graphql/user/user-create.input';
 import { AuthDto } from './dto';
+import { Token } from 'graphql';
 import { Tokens } from './types';
+import { UserWhereInput } from 'src/@generated/prisma-nestjs-graphql/user/user-where.input';
 
 @Resolver('auth')
 export class AuthResolver {
   constructor(private authService: AuthService) {}
 
   @Mutation('createUser')
-  async signupLocal(@Args('dto') dto: AuthDto): Promise<Tokens> {
-    return this.authService.signupLocal(dto);
+  async signupLocal(@Args('createUserInput') createUserInput: UserCreateInput) {
+    const newUser = await this.authService.signupLocal(createUserInput);
+
+    return newUser;
   }
 
   @Mutation('signinUser')
-  async signinLocal(
-    @Args('email') email: string,
-    @Args('password') password: string,
-  ) {
-    this.authService.signinLocal();
+  async signinLocal(@Args('signinUser') dto: AuthDto): Promise<Tokens> {
+    return await this.authService.signinLocal(dto);
   }
 
   @Mutation('signoutUser')

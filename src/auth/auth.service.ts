@@ -1,29 +1,57 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { AuthDto } from './dto';
 import * as argon from 'argon2';
 import { Tokens } from './types';
 import { JwtService } from '@nestjs/jwt';
+import { Prisma } from '@prisma/client';
+import { SigninPayload } from 'src/graphql';
 
 @Injectable()
 export class AuthService {
   constructor(private prisma: PrismaService, private jwt: JwtService) {}
 
-  async signupLocal(dto: AuthDto): Promise<Tokens> {
-    const hash = await this.hashData(dto.password);
+  async signupLocal(dto: Prisma.UserCreateInput) {
+    const hash = await this.hashData(dto.hash);
     const newUser = await this.prisma.user.create({
       data: {
         email: dto.email,
         hash,
       },
+      select: {
+        id: true,
+        email: true,
+        createdAt: true,
+        hash: false,
+      },
     });
-
     const tokens = await this.getToken(newUser.id, newUser.email);
+
     await this.updateRtHash(newUser.id, tokens.refresh_token);
-    return tokens;
+
+    return newUser;
   }
 
-  signinLocal() {}
+  async signinLocal(dto: AuthDto): Promise<SigninPayload> {
+    const user = await this.prisma.user.findUnique({
+      where: { email: dto.email },
+    });
+
+    if (!user) {
+      throw new ForbiddenException('Access denied');
+    }
+
+    const isPasswordCorrect = await argon.verify(user.hash, dto.password);
+    if (!isPasswordCorrect) {
+      throw new ForbiddenException('Email or password is wrong');
+    }
+
+    const tokens = await this.getToken(user.id, user.email);
+
+    await this.updateRtHash(user.id, tokens.refresh_token);
+
+    return tokens;
+  }
 
   signoutLocal() {}
 
