@@ -53,7 +53,13 @@ export class AuthService {
     return tokens;
   }
 
-  signoutLocal() {}
+  async signoutLocal(userId: number) {
+    await this.prisma.user.updateMany({
+      where: { id: userId, hashedRt: { not: null } },
+      data: { hashedRt: null },
+    });
+    return { message: 'user signed out' };
+  }
 
   refreshToken() {}
 
