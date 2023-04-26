@@ -61,7 +61,7 @@ export class AuthService {
     return { message: 'user signed out' };
   }
 
-  refreshToken() {}
+  refreshToken(userId: number, rt: string) {}
 
   hashData(data: string) {
     return argon.hash(data);

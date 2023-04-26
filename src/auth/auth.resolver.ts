@@ -39,7 +39,7 @@ export class AuthResolver {
   @UseGuards(AuthGuard('jwt-refresh'))
   @Mutation('refreshToken')
   @HttpCode(HttpStatus.OK)
-  async refreshToken() {
-    this.authService.refreshToken();
+  async refreshToken(@GetUser() user: User) {
+    return this.authService.refreshToken(user.id, user.hashedRt);
   }
 }
