@@ -31,8 +31,7 @@ export class AuthResolver {
   @UseGuards(AccessGaurd)
   @Mutation('signoutUser')
   @HttpCode(HttpStatus.OK)
-  async signoutLocal(@GetUser() user: User, @GetUser('email') email: string) {
-    // console.log({ email });
+  async signoutLocal(@GetUser() user: User) {
     return this.authService.signoutLocal(user.id);
   }
 
