@@ -5,6 +5,8 @@ import { ConfigModule } from '@nestjs/config';
 import { GraphQLISODateTime, GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriverConfig, ApolloDriver } from '@nestjs/apollo';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
+import { APP_GUARD } from '@nestjs/core';
+import { AccessGaurd } from './auth/guard';
 
 @Module({
   imports: [
@@ -20,6 +22,12 @@ import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin
     }),
     AuthModule,
     PrismaModule,
+  ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: AccessGaurd,
+    },
   ],
 })
 export class AppModule {}
