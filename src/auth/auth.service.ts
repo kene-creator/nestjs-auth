@@ -61,7 +61,24 @@ export class AuthService {
     return { message: 'user signed out' };
   }
 
-  refreshToken(userId: number, rt: string) {}
+  async refreshToken(userId: number, rt: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user) throw new ForbiddenException('Access denied');
+
+    console.log(rt, userId);
+    const rtMMathches = await argon.verify(user.hashedRt, rt);
+    console.log(rtMMathches);
+    if (!rtMMathches) throw new ForbiddenException('Access denied');
+
+    const tokens = await this.getToken(user.id, user.email);
+
+    await this.updateRtHash(user.id, tokens.refresh_token);
+
+    return tokens;
+  }
 
   hashData(data: string) {
     return argon.hash(data);

@@ -33,8 +33,8 @@ type RefreshTokenPayload {
 }
 
 type AuthPayload {
-  accessToken: String!
-  refreshToken: String!
+  access_token: String!
+  refresh_token: String!
 }
 
 type Query {
@@ -45,6 +45,6 @@ type Query {
 type Mutation {
   signinUser(signinUser: SigninUser!): SigninPayload!
   signoutUser: SignoutPayload!
-  refreshToken(refreshToken: String!): RefreshTokenPayload!
+  refreshToken: AuthPayload!
   createUser(createUserInput: CreateUserInput!): User!
 }

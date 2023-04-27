@@ -41,8 +41,8 @@ export class RefreshTokenPayload {
 }
 
 export class AuthPayload {
-    accessToken: string;
-    refreshToken: string;
+    access_token: string;
+    refresh_token: string;
 }
 
 export abstract class IQuery {
@@ -56,7 +56,7 @@ export abstract class IMutation {
 
     abstract signoutUser(): SignoutPayload | Promise<SignoutPayload>;
 
-    abstract refreshToken(refreshToken: string): RefreshTokenPayload | Promise<RefreshTokenPayload>;
+    abstract refreshToken(): AuthPayload | Promise<AuthPayload>;
 
     abstract createUser(createUserInput: CreateUserInput): User | Promise<User>;
 }

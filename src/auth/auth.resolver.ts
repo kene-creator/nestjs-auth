@@ -2,13 +2,13 @@ import { Resolver, Mutation, Args } from '@nestjs/graphql';
 import { AuthService } from './auth.service';
 import { UserCreateInput } from 'src/@generated/prisma-nestjs-graphql/user/user-create.input';
 import { AuthDto } from './dto';
-import { Tokens } from './types';
+import { Payload, Tokens } from './types';
 import { HttpCode, HttpStatus, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
 import { GetUser } from './decorator';
 import { User } from '@prisma/client';
-import { AccessGaurd } from './guard';
+import { AccessGaurd, RefreshGuard } from './guard';
 
 @Resolver('auth')
 export class AuthResolver {
@@ -36,10 +36,10 @@ export class AuthResolver {
     return this.authService.signoutLocal(user.id);
   }
 
-  @UseGuards(AuthGuard('jwt-refresh'))
+  @UseGuards(RefreshGuard)
   @Mutation('refreshToken')
   @HttpCode(HttpStatus.OK)
-  async refreshToken(@GetUser() user: User) {
-    return this.authService.refreshToken(user.id, user.hashedRt);
+  async refreshToken(@GetUser() user: Payload) {
+    return this.authService.refreshToken(user.sub, user.refreshToken);
   }
 }
