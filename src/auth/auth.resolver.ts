@@ -9,11 +9,13 @@ import { Request } from 'express';
 import { GetUser } from './decorator';
 import { User } from '@prisma/client';
 import { AccessGaurd, RefreshGuard } from './guard';
+import { Public } from './decorator/public.decorator';
 
 @Resolver('auth')
 export class AuthResolver {
   constructor(private authService: AuthService) {}
 
+  @Public()
   @Mutation('createUser')
   @HttpCode(HttpStatus.CREATED)
   async signupLocal(@Args('createUserInput') createUserInput: UserCreateInput) {
@@ -22,6 +24,7 @@ export class AuthResolver {
     return newUser;
   }
 
+  @Public()
   @Mutation('signinUser')
   @HttpCode(HttpStatus.OK)
   async signinLocal(@Args('signinUser') dto: AuthDto): Promise<Tokens> {
