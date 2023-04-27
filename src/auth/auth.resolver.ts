@@ -36,6 +36,7 @@ export class AuthResolver {
     return this.authService.signoutLocal(user.id);
   }
 
+  @Public()
   @UseGuards(RefreshGuard)
   @Mutation('refreshToken')
   @HttpCode(HttpStatus.OK)
