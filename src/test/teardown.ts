@@ -12,7 +12,7 @@ export default async (): Promise<void> => {
   const app = moduleRef.createNestApplication();
   await app.init();
   const prismaService = moduleRef.get<PrismaService>(PrismaService);
-  await prismaService.user.create({
+  const createdUser = await prismaService.user.create({
     data: {
       ...testUser,
     },
