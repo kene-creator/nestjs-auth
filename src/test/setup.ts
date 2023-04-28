@@ -1,6 +1,7 @@
 import { Test } from '@nestjs/testing';
-import { AppModule } from 'src/app.module';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { AppModule } from '../app.module';
+import { PrismaService } from '../prisma/prisma.service';
+import { testUser } from '../../test/stubs/user.stubs';
 
 export default async (): Promise<void> => {
   const moduleRef = await Test.createTestingModule({
@@ -13,8 +14,7 @@ export default async (): Promise<void> => {
   const prismaService = moduleRef.get<PrismaService>(PrismaService);
   await prismaService.user.create({
     data: {
-      email: 'ebuka@email.com',
-      hash: '12345',
+      ...testUser,
     },
   });
   await app.close();
