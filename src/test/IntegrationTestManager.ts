@@ -4,8 +4,8 @@ import { AppModule } from '../app.module';
 import cookieParser from 'cookie-parser';
 import { AuthService } from '../auth/auth.service';
 import { PrismaService } from '../prisma/prisma.service';
-import { testUser } from 'test/stubs/user.stubs';
-import { SigninPayload } from 'src/graphql';
+import { testUser } from '../../test/stubs/user.stubs';
+import { SigninPayload } from '../graphql';
 
 export class IntegrationManager {
   public httpServer: any;
@@ -36,5 +36,13 @@ export class IntegrationManager {
       email: 'testuser@example.com',
       password: '12345',
     });
+  }
+
+  async afterAll() {
+    await this.app.close();
+  }
+
+  getAccessToken() {
+    return this.access_token;
   }
 }
