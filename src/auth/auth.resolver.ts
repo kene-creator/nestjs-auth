@@ -1,6 +1,6 @@
 import { Resolver, Mutation, Args } from '@nestjs/graphql';
 import { AuthService } from './auth.service';
-import { UserCreateInput } from 'src/@generated/prisma-nestjs-graphql/user/user-create.input';
+import { UserCreateInput } from '../@generated/prisma-nestjs-graphql/user/user-create.input';
 import { AuthDto } from './dto';
 import { Payload, Tokens } from './types';
 import { HttpCode, HttpStatus, UseGuards } from '@nestjs/common';

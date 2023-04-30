@@ -1,7 +1,7 @@
 import { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { AppModule } from '../app.module';
-import cookieParser from 'cookie-parser';
+import * as cookieParser from 'cookie-parser';
 import { AuthService } from '../auth/auth.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { testUser } from '../../test/stubs/user.stubs';
@@ -28,18 +28,23 @@ export class IntegrationManager {
     const authService = this.app.get<AuthService>(AuthService);
 
     this.connection = this.app.get<PrismaService>(PrismaService);
+
     const userId = await this.connection.user.findUnique({
       where: { email: testUser.email },
     });
 
     this.access_token = await authService.signinLocal({
-      email: 'testuser@example.com',
+      email: 'kene@gmail.com',
       password: '12345',
     });
   }
 
   async afterAll() {
     await this.app.close();
+  }
+
+  getDB() {
+    return this.connection;
   }
 
   getAccessToken() {

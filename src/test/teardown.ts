@@ -17,12 +17,13 @@ export default async (): Promise<void> => {
       ...testUser,
     },
   });
+  console.log('user teardown');
   await app.close();
 
   // Cleanup step:
   await prismaService.user.delete({
     where: {
-      id: createdUser.id,
+      email: createdUser.email,
     },
   });
 };

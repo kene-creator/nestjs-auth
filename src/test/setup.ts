@@ -17,5 +17,6 @@ export default async (): Promise<void> => {
       ...testUser,
     },
   });
+  console.log('User created');
   await app.close();
 };

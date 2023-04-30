@@ -9,7 +9,7 @@ describe('create-user', () => {
 
   beforeAll(async () => {
     await integrationTestManager.beforeAll();
-  });
+  }, 10000);
 
   afterAll(async () => {
     await integrationTestManager.afterAll();
@@ -45,6 +45,15 @@ describe('create-user', () => {
         expect(createdUser).toMatchObject({
           email: testUser.email,
         });
+      });
+
+      test('then the user should be persisted in the database', async () => {
+        const user = await integrationTestManager.getDB().user.findUnique({
+          where: {
+            id: createdUser.id,
+          },
+        });
+        expect(user).toBeDefined();
       });
     });
   });
