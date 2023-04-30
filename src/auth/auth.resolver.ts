@@ -1,4 +1,4 @@
-import { Resolver, Mutation, Args } from '@nestjs/graphql';
+import { Resolver, Mutation, Args, Query } from '@nestjs/graphql';
 import { AuthService } from './auth.service';
 import { UserCreateInput } from '../@generated/prisma-nestjs-graphql/user/user-create.input';
 import { AuthDto } from './dto';
@@ -42,5 +42,12 @@ export class AuthResolver {
   @HttpCode(HttpStatus.OK)
   async refreshToken(@GetUser() user: Payload) {
     return this.authService.refreshToken(user.sub, user.refreshToken);
+  }
+
+  @Public()
+  @Query('users')
+  async users(): Promise<User[]> {
+    const users = await this.authService.getAllUsers();
+    return users;
   }
 }

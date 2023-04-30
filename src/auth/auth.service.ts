@@ -4,7 +4,7 @@ import { AuthDto } from './dto';
 import * as argon from 'argon2';
 import { Tokens } from './types';
 import { JwtService } from '@nestjs/jwt';
-import { Prisma } from '@prisma/client';
+import { Prisma, User } from '@prisma/client';
 import { SigninPayload } from 'src/graphql';
 
 @Injectable()
@@ -108,5 +108,10 @@ export class AuthService {
       where: { id: userId },
       data: { hashedRt: hash },
     });
+  }
+
+  async getAllUsers(): Promise<User[]> {
+    const users = await this.prisma.user.findMany();
+    return users;
   }
 }
