@@ -5,7 +5,7 @@ import * as argon from 'argon2';
 import { Tokens } from './types';
 import { JwtService } from '@nestjs/jwt';
 import { Prisma, User } from '@prisma/client';
-import { SigninPayload } from 'src/graphql';
+import { SigninPayload, TrackChange } from 'src/graphql';
 
 @Injectable()
 export class AuthService {
@@ -110,7 +110,7 @@ export class AuthService {
     });
   }
 
-  async getAllUsers(): Promise<User[]> {
+  async getAllUsers(): Promise<TrackChange[]> {
     const users = await this.prisma.user.findMany();
     return users;
   }

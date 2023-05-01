@@ -1,5 +1,13 @@
 scalar DateTime
 
+union TrackChange = User | Credentials
+
+type Credentials {
+  updatedAt: DateTime!
+  email: String!
+  hash: String!
+}
+
 type User {
   id: ID!
   email: String!
@@ -39,7 +47,7 @@ type AuthPayload {
 
 type Query {
   user(id: ID!): User
-  users: [User]!
+  users: [TrackChange]!
 }
 
 type Mutation {

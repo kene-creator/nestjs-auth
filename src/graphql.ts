@@ -19,6 +19,12 @@ export class SigninUser {
     password: string;
 }
 
+export class Credentials {
+    updatedAt: DateTime;
+    email: string;
+    hash: string;
+}
+
 export class User {
     id: string;
     email: string;
@@ -48,7 +54,7 @@ export class AuthPayload {
 export abstract class IQuery {
     abstract user(id: string): Nullable<User> | Promise<Nullable<User>>;
 
-    abstract users(): Nullable<User>[] | Promise<Nullable<User>[]>;
+    abstract users(): Nullable<TrackChange>[] | Promise<Nullable<TrackChange>[]>;
 }
 
 export abstract class IMutation {
@@ -62,4 +68,5 @@ export abstract class IMutation {
 }
 
 export type DateTime = any;
+export type TrackChange = User | Credentials;
 type Nullable<T> = T | null;

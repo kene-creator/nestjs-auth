@@ -8,6 +8,7 @@ import { GetUser } from './decorator';
 import { User } from '@prisma/client';
 import { AccessGaurd, RefreshGuard } from './guard';
 import { Public } from './decorator/public.decorator';
+import { TrackChange } from 'src/graphql';
 
 @Resolver('auth')
 export class AuthResolver {
@@ -46,7 +47,7 @@ export class AuthResolver {
 
   @Public()
   @Query('users')
-  async users(): Promise<User[]> {
+  async users(): Promise<TrackChange[]> {
     const users = await this.authService.getAllUsers();
     return users;
   }
